@@ -1,11 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Hii bro</h1>   
-</body>
-</html>  
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+      body {
+        background-color: #f8f9fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+      #loginForm {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 350px;
+      }
+      input[type="text"] {
+        margin-bottom: 15px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        padding: 10px;
+        width: 100%;
+        font-size: 14px;
+      }
+      button {
+        width: 100%;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      small {
+        display: block;
+        margin-top: -10px;
+        margin-bottom: 10px;
+        color: red;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="/api/login" method="post" id="loginForm">
+      <h2 class="text-center" style="margin-bottom: 20px;">Sign In</h2>
+      <div>
+        <input
+          type="text"
+          id="userName"
+          placeholder="Enter Username"
+          name="userName"
+        />
+        <% if (message == "Invalid UserName") { %>
+        <small><%= message %></small>
+        <% } %>
+        <small id="userNameError"></small>
+      </div>
+
+      <div>
+        <input
+          type="text"
+          id="password"
+          placeholder="Enter Password"
+          name="password"
+        />
+        <small id="passwordError"></small>
+      </div>
+      <button type="button" id="formBtn">Sign In</button>
+    </form>
+
+    <script>
+      let userName = document.getElementById("userName");
+      let password = document.getElementById("password");
+      let btn = document.getElementById("formBtn");
+      let form = document.getElementById("loginForm");
+      let userNameError = document.getElementById("userNameError");
+      let passwordError = document.getElementById("passwordError");
+
+      btn.addEventListener("click", () => {
+        if (userName.value.trim() === "") {
+          userNameError.innerText = "Username field is required";
+          return;
+        } else {
+          userNameError.innerText = "";
+        }
+
+        if (password.value.trim() === "") {
+          passwordError.innerText = "Password field is required";
+          return;
+        } else {
+          passwordError.innerText = "";
+        }
+
+        form.submit();
+      });
+    </script>
+  </body>
+</html>
+  

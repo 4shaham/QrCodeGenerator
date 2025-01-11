@@ -1,7 +1,39 @@
 
+const authenticationController = async (req,res,next) => {
+  try {
+
+    // Hardcoded username & password
+    const validUserName = "shaham";
+    const validPassword = "123456";
 
 
-const authenticationController=async(req,res)=>{
-   res.json({name:'ramees'})          
-}
-export default authenticationController
+    const { userName, password } = req.body;
+
+    // Check if fields are empty
+    if (!userName || !password || userName.trim() == "" || password.trim() == "") {
+      return res.status(400).json({ message: "UserName and Password are required fields." });
+    }
+
+    // Check if username matches
+    if (userName !== validUserName) {
+      return res.render("login",{message:"Invalid UserName"})  
+      return res.status(401).json({ message: "Invalid UserName." });
+    }
+
+    // Check if password matches
+    if (password !== validPassword) {
+      return res.render("login",{message:"Invalid Password"})  
+      return res.status(401).json({ message: "Invalid Password." });
+    }
+
+    // Successful login
+    req.session.loginStatus=true
+    return res.render("home");
+  
+      
+  } catch (error) {
+      next(error)
+  }
+
+};
+export default authenticationController;

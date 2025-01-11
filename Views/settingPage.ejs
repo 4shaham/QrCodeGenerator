@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+      body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+      }
+      .navbar {
+        background-color: #007bff;
+        color: white;
+        border-radius: 0;
+        border: none;
+        margin-bottom: 20px;
+      }
+      .navbar-brand,
+      .navbar-nav li a {
+        color: white !important;
+      }
+      .settings-container {
+        background: #fff;
+        padding: 20px 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px;
+        margin: auto;
+      }
+      .settings-container h2 {
+        margin-bottom: 20px;
+        font-size: 20px;
+        text-align: center;
+        color: #333;
+      }
+      .form-group label {
+        font-size: 14px;
+        color: #555;
+      }
+      .form-control {
+        font-size: 14px;
+        border-radius: 4px;
+      }
+      .btn-primary {
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        padding: 10px;
+        font-size: 16px;
+        width: 100%;
+      }
+      .btn-primary:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+   
+    <nav class="navbar navbar-default">
+      <div class="container-fluid" style="height: 70px;">
+        <div class="navbar-header" style="padding: 5px;">
+          <a class="navbar-brand" href="/api/">QR Voucher System</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right" style="padding: 5px;">
+          <li><a href="#">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+
+
+
+    <!-- Settings Section -->
+    <div class="settings-container">
+      <h2>Settings</h2>
+      <form id="settingsForm">
+        <div class="form-group">
+          <label for="expiryTime">Max Expiry Time (in days):</label>
+          <input
+            type="number"
+            class="form-control"
+            id="expiryTime"
+            name="expiryTime"
+            placeholder="Enter max expiry time"
+            min="1"
+          />
+        </div>
+        <div class="form-group">
+          <label for="voucherWidth">Voucher Width (mm):</label>
+          <input
+            type="number"
+            class="form-control"
+            id="voucherWidth"
+            name="voucherWidth"
+            placeholder="Enter voucher width"
+            min="10"
+          />
+        </div>
+        <div class="form-group">
+          <label for="voucherHeight">Voucher Height (mm):</label>
+          <input
+            type="number"
+            class="form-control"
+            id="voucherHeight"
+            name="voucherHeight"
+            placeholder="Enter voucher height"
+            min="10"
+          />
+        </div>
+        <div class="form-group">
+          <label for="fontSizeTitle">Font Size (Title):</label>
+          <input
+            type="number"
+            class="form-control"
+            id="fontSizeTitle"
+            name="fontSizeTitle"
+            placeholder="Enter title font size"
+            min="8"
+          />
+        </div>
+        <div class="form-group">
+          <label for="fontSizeText">Font Size (Text):</label>
+          <input
+            type="number"
+            class="form-control"
+            id="fontSizeText"
+            name="fontSizeText"
+            placeholder="Enter text font size"
+            min="8"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Save Settings</button>
+      </form>
+    </div>
+
+    <script>
+
+      const form = document.getElementById("settingsForm");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const settingsData = {};
+        formData.forEach((value, key) => {
+          settingsData[key] = value;
+        });
+        console.log("Settings saved:", settingsData);
+        alert("Settings saved successfully!");
+      });
+      
+    </script>
+  </body>
+</html>
