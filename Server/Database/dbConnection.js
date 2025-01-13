@@ -2,10 +2,9 @@ import sql from "mssql"
 
 
 
-export default  function connectDb(){
+
    
   // SQL Server configuration
- 
   const config ={
     user:"kts",
     password:"123456",
@@ -22,9 +21,10 @@ export default  function connectDb(){
   }
 
    // Connect to SQL Server
-   sql.connect(config)
+export const poolPromise=sql.connect(config)
    .then(() => console.log("Connection Successful!"))
    .catch(err => console.error("Connection Error: ", err));  
 
-}
+   
+
 

@@ -1,8 +1,10 @@
+
+
+  
 const userHomePage = async (req, res, next) => {
   try {
     if (!req.session.loginStatus) {
-      console.log("hii");
-      return res.redirect("/api/login");
+       return res.redirect("/api/login");
     }
     res.render("home", { data: "hiiii" });
   } catch (error) {  
@@ -25,18 +27,18 @@ const userLoginPage = async (req, res, next) => {
 
 const settingsPage=async(req,res,next)=>{
     try {
-        
       res.render("settingPage")
-
     } catch (error) {
         next(error)
     }
 }
 
+
+
 const service = {
   userHomePage,
   userLoginPage,
-  settingsPage
+  settingsPage,
 };
 
 export default service;

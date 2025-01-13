@@ -2,7 +2,8 @@ import express from "express"
 import router from "./Server/Routes/UserRouter.js"
 import session from "express-session"
 import cookieParser from "cookie-parser"
-import connectDb from "./Server/Database/dbConnection.js"
+import { poolPromise } from "./Server/Database/dbConnection.js"
+
 
 
 const app=express()
@@ -11,7 +12,9 @@ const port=4005
 
 app.set('view engine',"ejs")
 
-connectDb()
+// connectDb()
+poolPromise
+
   
 // Initialization
 app.use(cookieParser());
