@@ -27,6 +27,13 @@ app.use(session({
     resave: true
 }));
 
+// Cache Clear
+app.use((req, res, next) => {
+    res.setHeader("Cache-Control", "no-store, must-revalidate");
+    next();
+});
+
+
 // For parsing application/json
 app.use(express.json());
 
@@ -38,6 +45,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api',router)   
 
 
-
+// handle 404 eror
+app.all('*',(req,res)=>{ 
+    res.render('404Page')
+})
 
 app.listen(port,()=>console.log("running in this port"))

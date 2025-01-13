@@ -70,7 +70,7 @@
         />
         <% if (message == "Invalid UserName") { %>
         <small><%= message %></small>
-        <% } %>
+        <%}%>
         <small id="userNameError"></small>
       </div>
 
@@ -81,6 +81,9 @@
           placeholder="Enter Password"
           name="password"
         />
+        <% if (message == "Invalid Password") { %>
+          <small><%= message %></small>
+        <%}%>
         <small id="passwordError"></small>
       </div>
       <button type="button" id="formBtn">Sign In</button>

@@ -6,12 +6,6 @@ const authenticationController = async (req,res,next) => {
 
   try {
     
-    await db.user2.create({Name:"sahaha",Email:"shahamsalam123@gmail.com"});
-    let data= await db.user2.findAll()
-    // const {getVoucher}=Model  
-    // let data=await getVoucher()
-
-    console.log(data,"shaham User DAta")
    
     // Hardcoded username & password
     const validUserName = "shaham";  
@@ -28,13 +22,11 @@ const authenticationController = async (req,res,next) => {
     // Check if username matches
     if (userName !== validUserName) {
       return res.render("login",{message:"Invalid UserName"})  
-      return res.status(401).json({ message: "Invalid UserName." });
     }
 
     // Check if password matches
     if (password !== validPassword) {
       return res.render("login",{message:"Invalid Password"})  
-      return res.status(401).json({ message: "Invalid Password." });
     }
 
     // Successful login

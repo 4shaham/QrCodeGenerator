@@ -15,8 +15,10 @@ const userHomePage = async (req, res, next) => {
 
 const userLoginPage = async (req, res, next) => {
   try {
+    
     if (req.session.loginStatus) {
-      return res.redirect("/api/");
+       res.redirect("/api/");
+       return 
     }
     res.render("login", { message:""});
   } catch (error) {
@@ -47,7 +49,6 @@ const QrResultPage=async(req,res,next)=>{
         res.render("QrResponse",{status:false,data:""})
     }    
 
-     
   } catch (error) {
      next(error)
   }  
