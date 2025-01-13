@@ -98,5 +98,5 @@ Ensure the following are installed on your local machine:
 
 ---
 
-## Directory Structure
+
 
