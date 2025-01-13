@@ -17,65 +17,44 @@ export const createQrGeneratorController = async (req, res) => {
   try {
 
     const {expiryTime,voucherWidth,voucherHeight,fontSizeTitle,fontSizeText} = req.body;
+
     let currentDate=new Date()
     let expireDate=new Date()
-    expireDate.setDate(expireDate.getDate()+expiryTime)
+    expireDate.setDate(expireDate.getDate()+parseInt(expiryTime))  
+  
 
     const voucherTitleArray=[
       "Special Offer",
       "Exclusive Deal",
-      "Limited Time Discount",
+      "Limited Time Discount",     
       "Flash Sale",
       "Seasonal Promotion",
       "Buy One Get One Free",
       "Mega Sale",
       "Exclusive Voucher"
     ];
-    const randomIndex = Math.floor(Math.random() * voucherTitleArray.length);
 
+    const randomIndex = Math.floor(Math.random() * voucherTitleArray.length);
     const uniqueNumber = `${Date.now().toString().slice(-5)}${Math.floor(
       10000 + Math.random() * 90000
     )}`;
+
     await db.voucher.create({voucherNumber:uniqueNumber,voucherTitle:voucherTitleArray[randomIndex],generatedDate:currentDate,expiryDate:expireDate,qrCodeData:`loclahot:${process.env.PORT}:/api/Qr?id=${uniqueNumber}`,fontSizeTitle,fontSizeText,voucherWidth});
     res.json({ 
-      data:"shaham",
+      data:"shaham",  
     }); 
-
   } catch (error) {
     console.log("Eroror");
   }
+  
 };
 
 export const pdfPage = async (req, res, next) => {
   try {
-    // Mock voucher data
-    const vouchers = [
-      {
-        number: "1234567890",
-        generatedDate: "2025-01-10",
-        expiryDate: "2025-01-20",
-      },
-      {
-        number: "9876543210",
-        generatedDate: "2025-02-01",       
-        expiryDate: "2025-02-15",
-      },
-      {
-        number: "5555555555",
-        generatedDate: "2025-03-01",
-        expiryDate: "2025-03-31",
-      },
-      {
-        number: "9999999999",
-        generatedDate: "2025-04-01",
-        expiryDate: "2025-04-30",
-      },
-    ];
+   
 
     const voucherId = req.query.voucherIndex
     const voucher =await db.voucher.findByPk(parseInt(voucherId))
-  
-
   
 
     // Set the response headers
@@ -84,8 +63,13 @@ export const pdfPage = async (req, res, next) => {
       "Content-Disposition",
       `attachment; filename=voucher_${voucher.dataValues.id}.pdf`
     );
+
+    //Qr Image Creation
     const url = voucher.dataValues.qrCodeData
     const qrCodeImage = await QRCode.toDataURL(url);
+
+
+    console.log(voucher.dataValues,"datas for oBject")
 
     // Create a new PDF document
     const doc = new PDFDocument();
@@ -94,16 +78,16 @@ export const pdfPage = async (req, res, next) => {
     doc.pipe(res);
 
     // Add voucher content to the PDF
-    doc.fontSize(20).text("Voucher Details", { align: "center" });
+    doc.fontSize(parseInt(voucher.dataValues.fontSizeTitle)).text("Voucher Details",{align:"center"});
     doc.moveDown();
-    doc.text(`Voucher Number: ${voucher.number}`);
-    doc.text(`Generated Date: ${voucher.dataValues.generatedDate}`);
-    doc.text(`Expiry Date: ${voucher.dataValues.expiryDate}`);
+    doc.fontSize(parseInt(voucher.dataValues.fontSizeText)).text(`Voucher Title: ${voucher.voucherTitle}`);
+    doc.fontSize(parseInt(voucher.dataValues.fontSizeText)).text(`Generated Date: ${voucher.dataValues.generatedDate.toString().split("T")[0]}`);
+    doc.fontSize(parseInt(voucher.dataValues.fontSizeText)).text(`Expiry Date: ${voucher.dataValues.expiryDate.toString().split("T")[0]}`);
 
     const qrImageBuffer = Buffer.from(qrCodeImage.split(",")[1], "base64");
-    doc.image(qrImageBuffer, {
-      fit: [150, 150],
-      align: "center",
+    doc.image(qrImageBuffer,{
+      fit:[200,200],
+      align:"center",
       valign: "center",
     });
 
@@ -112,4 +96,5 @@ export const pdfPage = async (req, res, next) => {
   } catch (error) {
     console.log(error);
   }
+
 };
