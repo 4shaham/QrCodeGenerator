@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Scan Result</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+
+
+        <!-- Success State -->
+        <% if(status){  %>
+        <div class="card mb-4 border-success" id="successCard">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <svg class="text-success" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <h4 class="card-title text-success">Scan Successful!</h4>
+                <p class="card-text">QR code validated successfully</p>
+                <div class="mt-3">
+                    <p class="mb-1"><strong>Unique Voucher Number</strong> <span id="scanDate">:<%= data.voucherNumber %></span></p>
+                </div>
+                <button class="btn btn-success mt-3">Continue</button>
+            </div>  
+        </div>
+
+        <% } %>
+
+        <!-- Expired State -->
+        <% if(!status) { %>
+
+            <div class="card mb-4 border-danger" id="expiredCard"  >
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <svg class="text-danger" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                        </svg>
+                    </div>
+                    <h4 class="card-title text-danger">Expired!</h4>
+                    <p class="card-text">This QR code has expired</p>
+                </div>
+            </div>
+
+          <% } %>  
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
