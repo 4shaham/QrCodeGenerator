@@ -2,20 +2,22 @@ import express from "express"
 import router from "./Server/Routes/UserRouter.js"
 import session from "express-session"
 import cookieParser from "cookie-parser"
-import { poolPromise } from "./Server/Database/dbConnection.js"
-
+import dotenv from "dotenv"
+import sequelize from "./Server/Config/dbConnection.js"  
+// import { poolPromise } from "./Server/Config/dbConnection.js"
+dotenv.config({path:'.env'})
 
 
 const app=express()
-const port=4005
+const port=process.env.PORT
 
 
 app.set('view engine',"ejs")
 
-// connectDb()
-poolPromise
+// // connectDb()    
+// export const poll=poolPromise
 
-  
+       
 // Initialization
 app.use(cookieParser());
 

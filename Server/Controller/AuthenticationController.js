@@ -1,9 +1,20 @@
 
-const authenticationController = async (req,res,next) => {
-  try {
 
+import db from "../Config/dbConnection.js";
+ 
+const authenticationController = async (req,res,next) => {  
+
+  try {
+    
+    await db.user2.create({Name:"sahaha",Email:"shahamsalam123@gmail.com"});
+    let data= await db.user2.findAll()
+    // const {getVoucher}=Model  
+    // let data=await getVoucher()
+
+    console.log(data,"shaham User DAta")
+   
     // Hardcoded username & password
-    const validUserName = "shaham";
+    const validUserName = "shaham";  
     const validPassword = "123456";
 
 
@@ -28,7 +39,7 @@ const authenticationController = async (req,res,next) => {
 
     // Successful login
     req.session.loginStatus=true
-    return res.render("home");
+    return res.redirect("/api/");
   
       
   } catch (error) {
@@ -37,3 +48,4 @@ const authenticationController = async (req,res,next) => {
 
 };
 export default authenticationController;
+  

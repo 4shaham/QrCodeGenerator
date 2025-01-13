@@ -1,7 +1,7 @@
 import { Router} from "express";
 import authenticationController from "../Controller/AuthenticationController.js";
 import service from "../Service/UserSide.js";
-import { createQrGeneratorController } from "../Controller/QrGeneratorController.js";
+import { createQrGeneratorController, findAllVouchers } from "../Controller/QrGeneratorController.js";
 import { pdfPage } from "../Controller/QrGeneratorController.js";
 
 
@@ -20,10 +20,12 @@ router.get("/settings",settingsPage)
 router.get("/generate-pdf",pdfPage) 
 
 
+
+router.get("/findAllVoucher",findAllVouchers)
 //post Routes
 router.post("/login",authenticationController)
 router.post("/createQR",createQrGeneratorController)
-
+  
 
 
 

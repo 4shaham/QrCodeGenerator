@@ -1,12 +1,17 @@
 
-
+import axios  from "axios";
   
 const userHomePage = async (req, res, next) => {
   try {
+
     if (!req.session.loginStatus) {
        return res.redirect("/api/login");
     }
-    res.render("home", { data: "hiiii" });
+  
+    let data=await axios.get(`http://localhost:4005/api/findAllVoucher`)
+    
+    res.render("home", {vouchers:data.data.vouchers});  
+    
   } catch (error) {  
     next(error);
   }
@@ -40,5 +45,5 @@ const service = {
   userLoginPage,
   settingsPage,
 };
-
+  
 export default service;

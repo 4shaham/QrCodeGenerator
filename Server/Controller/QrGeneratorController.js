@@ -1,18 +1,30 @@
 import QRCode from "qrcode";
 import PDFDocument from "pdfkit";
+import db from "../Config/dbConnection.js";
 
 
+export const findAllVouchers=async(req,res)=>{
+  try {
+    const vouchers = await db.voucher.findAll();
+    res.json({vouchers})
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 
 export const createQrGeneratorController = async (req, res) => {
   try {
+
     const { voucherTitile, fontSize, startDate, expireDate } = req.body;
     const uniqueNumber = `${Date.now().toString().slice(-5)}${Math.floor(
       10000 + Math.random() * 90000
     )}`;
+    await db.voucher.create({voucherNumber:uniqueNumber,generatedDate:Date.now(),expiryDate:Date.now(),qrCodeData:`loclahot:4005:`});
     res.json({
       data: "sjsj",
     });
+
   } catch (error) {
     console.log("Eroror");
   }
@@ -29,7 +41,7 @@ export const pdfPage = async (req, res, next) => {
       },
       {
         number: "9876543210",
-        generatedDate: "2025-02-01",
+        generatedDate: "2025-02-01",       
         expiryDate: "2025-02-15",
       },
       {
