@@ -16,14 +16,30 @@ export const findAllVouchers=async(req,res)=>{
 export const createQrGeneratorController = async (req, res) => {
   try {
 
-    const { voucherTitile, fontSize, startDate, expireDate } = req.body;
+    const {expiryTime,voucherWidth,voucherHeight,fontSizeTitle,fontSizeText} = req.body;
+    let currentDate=new Date()
+    let expireDate=new Date()
+    expireDate.setDate(expireDate.getDate()+expiryTime)
+
+    const voucherTitleArray=[
+      "Special Offer",
+      "Exclusive Deal",
+      "Limited Time Discount",
+      "Flash Sale",
+      "Seasonal Promotion",
+      "Buy One Get One Free",
+      "Mega Sale",
+      "Exclusive Voucher"
+    ];
+    const randomIndex = Math.floor(Math.random() * voucherTitleArray.length);
+
     const uniqueNumber = `${Date.now().toString().slice(-5)}${Math.floor(
       10000 + Math.random() * 90000
     )}`;
-    await db.voucher.create({voucherNumber:uniqueNumber,generatedDate:Date.now(),expiryDate:Date.now(),qrCodeData:`loclahot:4005:`});
-    res.json({
-      data: "sjsj",
-    });
+    await db.voucher.create({voucherNumber:uniqueNumber,voucherTitle:voucherTitleArray[randomIndex],generatedDate:currentDate,expiryDate:expireDate,qrCodeData:`loclahot:${process.env.PORT}:/api/Qr?id=${uniqueNumber}`,fontSizeTitle,fontSizeText,voucherWidth});
+    res.json({ 
+      data:"shaham",
+    }); 
 
   } catch (error) {
     console.log("Eroror");
@@ -56,25 +72,19 @@ export const pdfPage = async (req, res, next) => {
       },
     ];
 
-    const voucherIndex = parseInt(req.query.voucherIndex, 10);
+    const voucherId = req.query.voucherIndex
+    const voucher =await db.voucher.findByPk(parseInt(voucherId))
+  
 
-    if (
-      isNaN(voucherIndex) ||
-      voucherIndex < 0 ||
-      voucherIndex >= vouchers.length
-    ) {
-      return res.status(400).json({ error: "Invalid voucher index" });
-    }
-
-    const voucher = vouchers[voucherIndex];
+  
 
     // Set the response headers
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
       "Content-Disposition",
-      `attachment; filename=voucher_${voucherIndex}.pdf`
+      `attachment; filename=voucher_${voucher.dataValues.id}.pdf`
     );
-    const url = `https://example.com?number=${voucher.number}`;
+    const url = voucher.dataValues.qrCodeData
     const qrCodeImage = await QRCode.toDataURL(url);
 
     // Create a new PDF document
@@ -87,8 +97,8 @@ export const pdfPage = async (req, res, next) => {
     doc.fontSize(20).text("Voucher Details", { align: "center" });
     doc.moveDown();
     doc.text(`Voucher Number: ${voucher.number}`);
-    doc.text(`Generated Date: ${voucher.generatedDate}`);
-    doc.text(`Expiry Date: ${voucher.expiryDate}`);
+    doc.text(`Generated Date: ${voucher.dataValues.generatedDate}`);
+    doc.text(`Expiry Date: ${voucher.dataValues.expiryDate}`);
 
     const qrImageBuffer = Buffer.from(qrCodeImage.split(",")[1], "base64");
     doc.image(qrImageBuffer, {

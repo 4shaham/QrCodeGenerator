@@ -48,4 +48,16 @@ const authenticationController = async (req,res,next) => {
 
 };
 export default authenticationController;
+
+
+export const logOut=async(req,res)=>{
+  try {
+    
+   req.session.loginStatus=false
+   res.redirect("/api/login")
+
+  } catch (error) {
+    console.log(error)
+  }
+}
   

@@ -3,8 +3,9 @@ import authenticationController from "../Controller/AuthenticationController.js"
 import service from "../Service/UserSide.js";
 import { createQrGeneratorController, findAllVouchers } from "../Controller/QrGeneratorController.js";
 import { pdfPage } from "../Controller/QrGeneratorController.js";
+import { logOut } from "../Controller/AuthenticationController.js";
 
-
+import userAuthMiddleware from "../../Middleware/UserAuthMiddleware.js";
 
 const router=Router()
 
@@ -13,12 +14,11 @@ const {userHomePage,userLoginPage,settingsPage}=service
 
 
 // getRoutes 
-
-router.get("/",userHomePage)
+router.get("/",userAuthMiddleware,userHomePage)
 router.get("/login",userLoginPage)
-router.get("/settings",settingsPage)
+router.get("/settings",userAuthMiddleware,settingsPage)
 router.get("/generate-pdf",pdfPage) 
-
+router.get("/logout",logOut)
 
 
 router.get("/findAllVoucher",findAllVouchers)

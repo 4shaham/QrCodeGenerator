@@ -4,14 +4,10 @@ import axios  from "axios";
 const userHomePage = async (req, res, next) => {
   try {
 
-    if (!req.session.loginStatus) {
-       return res.redirect("/api/login");
-    }
-  
+   
     let data=await axios.get(`http://localhost:4005/api/findAllVoucher`)
-    
     res.render("home", {vouchers:data.data.vouchers});  
-    
+
   } catch (error) {  
     next(error);
   }
@@ -24,7 +20,7 @@ const userLoginPage = async (req, res, next) => {
     }
     res.render("login", { message:""});
   } catch (error) {
-    throw error;
+      console.log("err",error)
   }
 };
 
