@@ -42,7 +42,7 @@ const authenticationController = async (req,res,next) => {
 export default authenticationController;
 
 
-export const logOut=async(req,res)=>{
+export const logOut=async(req,res,next)=>{
   try {
     
    req.session.loginStatus=false
@@ -50,6 +50,7 @@ export const logOut=async(req,res)=>{
 
   } catch (error) {
     console.log(error)
+    next(error)
   }
 }
   

@@ -23,6 +23,7 @@ const userLoginPage = async (req, res, next) => {
     res.render("login", { message:""});
   } catch (error) {
       console.log("err",error)
+      next(error)
   }
 };
 

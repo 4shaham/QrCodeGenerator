@@ -4,6 +4,7 @@ import session from "express-session"
 import cookieParser from "cookie-parser"
 import dotenv from "dotenv"
 import sequelize from "./Server/Config/dbConnection.js"  
+import ErrorHandlingMiddleware from "./Middleware/ErrorHandlingMiddleware.js"
 // import { poolPromise } from "./Server/Config/dbConnection.js"
 dotenv.config({path:'.env'})
 
@@ -43,6 +44,10 @@ app.use(express.urlencoded({ extended: true }));
 
     
 app.use('/api',router)   
+
+// error Hanlding Middleware
+
+app.use(ErrorHandlingMiddleware)
 
 
 // handle 404 eror
