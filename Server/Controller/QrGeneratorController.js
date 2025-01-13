@@ -95,16 +95,14 @@ export const pdfPage = async (req, res, next) => {
     doc
       .fontSize(parseInt(voucher.dataValues.fontSizeText))
       .text(
-        `Generated Date: ${
-          voucher.dataValues.generatedDate.toString().split("T")[0]
-        }`
+        `Generated Date: ${voucher.dataValues.generatedDate.toString()}`
       );
     doc
       .fontSize(parseInt(voucher.dataValues.fontSizeText))
       .text(
         `Expiry Date: ${voucher.dataValues.expiryDate.toString().split("T")[0]}`
       );
-
+  
     const qrImageBuffer = Buffer.from(qrCodeImage.split(",")[1], "base64");
     doc.image(qrImageBuffer, {
       fit: [200, 200],
@@ -138,5 +136,5 @@ export const qrGetData = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-  
+
 };
